@@ -1,0 +1,4 @@
+ECU ID: 5046370692546
+Password: tJSyXUgWz9jcEKiNcFsrfeGfnUO5RmvXeOdfIgB0jgw=
+AES: ECB
+Key: 128

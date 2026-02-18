@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CyberSecurity Management System – Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #ffffff; /* ✅ WHITE BACKGROUND */
+    font-family: Arial, sans-serif;
+}
+
+.login-box {
+    width: 420px;
+    padding: 30px;
+    background: #000000;
+    border-radius: 12px;
+    border: 2px solid #00bcd4;
+}
+
+h3 {
+    color: #00bcd4;
+}
+
+label {
+    color: #cccccc;
+}
+
+.form-control {
+    background: #111;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.form-control:focus {
+    border-color: #00bcd4;
+    box-shadow: none;
+}
+
+.btn-login {
+    background: #00bcd4;
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-login:hover {
+    background: #00a5b8;
+}
+
+.footer-text {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center" style="height:100vh;">
+
+<div class="login-box shadow-lg">
+    <h3 class="text-center mb-4">System Login</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <button type="submit" class="btn btn-login w-100 mt-3">
+            Login
+        </button>
+    </form>
+
+    <div class="footer-text">
+        CyberSecurity Management System<br>
+        Authorized Access Only
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ECU Security System</title>
+
+<style>
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 60%;
+    margin: auto;
+}
+
+.card {
+    border: 2px solid #00bcd4;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 25px auto;
+}
+
+.card.orange {
+    border-color: orange;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #000000;
+}
+
+label {
+    margin-top: 12px;
+    display: block;
+    font-size: 14px;
+    color: #000000;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+input, select {
+    padding: 8px;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #999;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.id-box {
+    width: 100%;
+    margin-top: 6px;
+}
+
+select {
+    width: 100%;
+}
+
+button {
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-set {
+    background-color: orange;
+    color: black;
+    width: 45%;
+}
+
+.btn-back {
+    background-color: #333;
+    color: white;
+    margin: 30px auto;
+    display: block;
+    padding: 8px 20px;
+}
+
+.success {
+    margin-top: 10px;
+    color: green;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= ECU ID GENERATION ================= -->
+<div class="card">
+    <h2>ECU ID Generation</h2>
+
+    <label>Country</label>
+    <select onchange="setValue('country_txt', this.value)">
+        <option>Select</option>
+        <option>India</option>
+        <option>UNECE</option>
+        <option>Japan</option>
+        <option>China</option>
+        <option>USA</option>
+        <option>European Union</option>
+        <option>SAARC</option>
+    </select>
+    <input class="id-box" id="country_txt" readonly>
+
+    <label>OEM</label>
+    <select onchange="setValue('oem_txt', this.value)">
+        <option>Select</option>
+        <option>RSSL</option>
+        <option>RML</option>
+        <option>RHL</option>
+        <option>ZF RANE</option>
+    </select>
+    <input class="id-box" id="oem_txt" readonly>
+
+    <label>Plant</label>
+    <select onchange="setValue('plant_txt', this.value)">
+        <option>Select</option>
+        <option>P1</option>
+        <option>P2</option>
+        <option>P3</option>
+        <option>P4</option>
+    </select>
+    <input class="id-box" id="plant_txt" readonly>
+
+    <label>ECU Type</label>
+    <select onchange="setValue('ecu_type_txt', this.value)">
+        <option>Select</option>
+        <option>EPS</option>
+        <option>ADAS</option>
+    </select>
+    <input class="id-box" id="ecu_type_txt" readonly>
+
+    <label>Hardware Revision</label>
+    <input class="id-box" id="hw_revision" placeholder="Enter HW Revision">
+
+    <label>YY / WW / MM</label>
+    <input type="date" class="id-box" id="date_code">
+
+    <label>Line</label>
+    <select onchange="setValue('line_txt', this.value)">
+        <option>Select</option>
+        <option>L1</option>
+        <option>L2</option>
+        <option>L3</option>
+    </select>
+    <input class="id-box" id="line_txt" readonly>
+</div>
+
+<!-- ================= PASSWORD + ECU OUTPUT ================= -->
+<div class="card orange">
+    <h2>Generate Password</h2>
+
+    <label>Password Type</label>
+    <select id="ptype">
+        <option>Select</option>
+        <option>CSPRNG</option>
+        <option>TRNG</option>
+    </select>
+
+    <label>Password Length</label>
+    <select id="plen">
+        <option>Select</option>
+        <option>32</option>
+        <option>64</option>
+    </select>
+
+    <div class="row">
+        <button class="btn-set" onclick="setPassword()">Set Password</button>
+        <button class="btn-set" onclick="goToAuth()">Get Password</button>
+    </div>
+
+    <div class="success" id="pwd_msg"></div>
+
+    <label>Readable ECU ID</label>
+    <input class="id-box" id="readable_ecu_id" readonly>
+
+    <label>Hex ECU ID</label>
+    <input class="id-box" id="hex_ecu_id" readonly>
+
+    <div class="row">
+        <button class="btn-set" onclick="fetchECUID()">Generate ECU ID</button>
+        <button class="btn-set" onclick="downloadECUID()">Download ECU ID</button>
+    </div>
+</div>
+
+<button class="btn-back" onclick="goBack()">Back</button>
+
+</div>
+
+<script>
+function setValue(id, value) {
+    if (value !== "Select") {
+        document.getElementById(id).value = value;
+    }
+}
+
+/* ECU ID GENERATION */
+function fetchECUID() {
+    const data = {
+        country: document.getElementById("country_txt").value,
+        oem: document.getElementById("oem_txt").value,
+        plant: document.getElementById("plant_txt").value,
+        ecu: document.getElementById("ecu_type_txt").value,
+        hw: document.getElementById("hw_revision").value,
+        date: document.getElementById("date_code").value,
+        line: document.getElementById("line_txt").value
+    };
+
+    fetch("/generate-ecu-id/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        document.getElementById("readable_ecu_id").value = res.readable_id;
+        document.getElementById("hex_ecu_id").value = res.hex_id;
+    })
+    .catch(() => alert("ECU ID generation failed"));
+}
+
+/* SET PASSWORD */
+function setPassword() {
+    const algo = document.getElementById("ptype").value;
+    const length = document.getElementById("plen").value;
+    const ecuId = document.getElementById("readable_ecu_id").value;
+
+    if (!ecuId) {
+        alert("Generate ECU ID first");
+        return;
+    }
+
+    fetch("/set-ecu-password/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            ecu_id: ecuId,
+            algorithm: algo,
+            length: length
+        })
+    })
+    .then(res => res.json())
+    .then(res => {
+        document.getElementById("pwd_msg").innerText = res.message;
+    });
+}
+
+/* DOWNLOAD ECU ID */
+function downloadECUID() {
+    const readable = document.getElementById("readable_ecu_id").value;
+    const hex = document.getElementById("hex_ecu_id").value;
+
+    const blob = new Blob(
+        ["Readable:\n" + readable + "\n\nHex:\n" + hex],
+        { type: "text/plain" }
+    );
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "ecu_id.txt";
+    a.click();
+}
+
+function goToAuth() {
+    window.location.href = "/auth/";
+}
+
+function goBack() {
+    window.location.href = "/";
+}
+</script>
+
+</body>
+</html>

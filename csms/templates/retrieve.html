@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Get Password</title>
+
+<style>
+body {
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial;
+}
+
+.box {
+    width: 400px;
+    margin: 120px auto;
+    padding: 30px;
+    border: 2px solid orange;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #ffffff;
+    border: 1px solid #999;
+    color: #000000;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.get-btn {
+    background: orange;
+    color: black;
+}
+
+.download-text-btn {
+    background: #00bcd4;
+    color: black;
+}
+
+.download-xl-btn {
+    background: #4caf50;
+    color: black;
+}
+
+.back-btn {
+    background: #333;
+    color: white;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* PASSWORD DISPLAY */
+.success {
+    color: green;
+    margin-top: 10px;
+}
+
+/* PASSWORD BOX */
+.password-box {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Get Password</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" id="ecu_id" name="ecu_id" placeholder="Enter ECU ID" required>
+        <button type="submit" class="get-btn">Get Password</button>
+    </form>
+
+    {% if password %}
+        <div class="success password-box">
+            Password: {{ password }}
+        </div>
+
+        <button class="download-text-btn" onclick="downloadText()">
+            Download as Text File
+        </button>
+
+        <button class="download-xl-btn" onclick="downloadXL()">
+            Download as XL File
+        </button>
+    {% endif %}
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <button class="back-btn" onclick="goBack()">Back</button>
+</div>
+
+<script>
+function goBack() {
+    window.location.href = "/auth/";
+}
+
+function downloadText() {
+    const ecuId = document.getElementById("ecu_id").value;
+
+    if (!ecuId) {
+        alert("Enter ECU ID first");
+        return;
+    }
+
+    window.location.href = "/download-text/?ecu_id=" + encodeURIComponent(ecuId);
+}
+
+function downloadXL() {
+    const ecuId = document.getElementById("ecu_id").value;
+
+    if (!ecuId) {
+        alert("Enter ECU ID first");
+        return;
+    }
+
+    window.location.href = "/download-xl/?ecu_id=" + encodeURIComponent(ecuId);
+}
+</script>
+
+</body>
+</html>

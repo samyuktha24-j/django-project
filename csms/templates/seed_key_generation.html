@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seed & Key Generation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            width: 45%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 { text-align: center; }
+
+        select, button, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #2c5364;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover { background-color: #203a43; }
+
+        input { background-color: #f0f0f0; }
+
+        .center-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Seed & Key Generation Module</h2>
+
+<div class="container">
+
+    <!-- LEFT SIDE -->
+    <div class="box">
+        <h3>Design</h3>
+
+        <label>Select Proprietary</label>
+        <select id="designDropdown">
+            <option value="Proprietary 1">Proprietary 1</option>
+            <option value="Proprietary 2">Proprietary 2</option>
+            <option value="Proprietary 3">Proprietary 3</option>
+        </select>
+
+        <button onclick="generateDesignSeed()">Generate Seed</button>
+
+        <label>Seed</label>
+        <input type="text" id="designSeed" readonly>
+
+        <button onclick="generateLeftKey()">Generate Key</button>
+
+        <label>Key</label>
+        <input type="text" id="designKey" readonly>
+
+        <label>Encrypted</label>
+        <input type="text" id="designEncrypted" readonly>
+
+        <label>Hash</label>
+        <input type="text" id="designHash" readonly>
+    </div>
+
+
+    <!-- TRANSFER BUTTON -->
+    <div class="center-btn">
+        <button onclick="transferSeed()">Transfer Seed ➜</button>
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="box">
+        <h3>Tool</h3>
+
+        <label>Select Proprietary</label>
+        <select id="toolDropdown">
+            <option value="Proprietary 1">Proprietary 1</option>
+            <option value="Proprietary 2">Proprietary 2</option>
+            <option value="Proprietary 3">Proprietary 3</option>
+        </select>
+
+        <label>Seed</label>
+        <input type="text" id="toolSeed" readonly>
+
+        <button onclick="generateRightKey()">Generate Key</button>
+
+        <label>Key</label>
+        <input type="text" id="toolKey" readonly>
+
+        <label>Encrypted</label>
+        <input type="text" id="toolEncrypted" readonly>
+
+        <label>Hash</label>
+        <input type="text" id="toolHash" readonly>
+    </div>
+
+</div>
+
+<div class="message" id="validationMessage"></div>
+
+<script>
+
+let leftSeed = null;
+let leftHash = null;
+
+
+// LEFT: Generate Seed
+function generateDesignSeed() {
+
+    let proprietary = document.getElementById("designDropdown").value;
+
+    fetch("/generate-seed/?proprietary=" + proprietary)
+        .then(response => response.json())
+        .then(data => {
+            leftSeed = data.seed;
+            document.getElementById("designSeed").value = leftSeed;
+        });
+}
+
+
+// LEFT: Generate Key + Encryption + Hash
+function generateLeftKey() {
+
+    if (!leftSeed) {
+        alert("Generate seed first.");
+        return;
+    }
+
+    fetch("/process-seed/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            seed: leftSeed,
+            proprietary: document.getElementById("designDropdown").value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("designKey").value = data.key;
+        document.getElementById("designEncrypted").value = data.encrypted;
+        document.getElementById("designHash").value = data.hash;
+
+        leftHash = data.hash;
+    });
+}
+
+
+// TRANSFER SEED ONLY
+function transferSeed() {
+
+    if (!leftSeed) {
+        alert("Generate seed first.");
+        return;
+    }
+
+    document.getElementById("toolSeed").value = leftSeed;
+}
+
+
+// RIGHT: Generate Key + Encryption + Hash
+function generateRightKey() {
+
+    let seed = document.getElementById("toolSeed").value;
+
+    if (!seed) {
+        alert("Transfer seed first.");
+        return;
+    }
+
+    fetch("/process-seed/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            seed: seed,
+            proprietary: document.getElementById("toolDropdown").value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("toolKey").value = data.key;
+        document.getElementById("toolEncrypted").value = data.encrypted;
+        document.getElementById("toolHash").value = data.hash;
+
+        validateHashes(data.hash);
+    });
+}
+
+
+// COMPARE HASHES
+function validateHashes(rightHash) {
+
+    if (!leftHash) return;
+
+    if (leftHash === rightHash) {
+        document.getElementById("validationMessage").innerHTML =
+            "VALID ✅ — Hashes Match";
+        document.getElementById("validationMessage").style.color = "green";
+    } else {
+        document.getElementById("validationMessage").innerHTML =
+            "INVALID ❌ — Hashes Do Not Match";
+        document.getElementById("validationMessage").style.color = "red";
+    }
+}
+ 
+</script>
+</body>
+</html>

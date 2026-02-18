@@ -1,0 +1,4 @@
+ECU ID: 8383465282143
+Password: bbpG+od+P9XzLxibVyfZdxQrcuYy4WhvVuY+bXi5ZdU=
+AES Mode: CBC
+Key Size: 256

@@ -1,0 +1,4 @@
+ECU ID: 0178096204715
+Password: 6MkXnll/MgLf9cswqHTAuDDBKDqR8EJKmTa7QHtsbWA=
+AES Mode: CBC
+Key Size: 256

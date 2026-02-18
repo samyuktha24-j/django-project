@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5 text-center">
+    <h2 class="mb-4">Incident Handling Email Generation</h2>
+    <hr>
+
+    {% if success %}
+        <div class="alert alert-success">
+            Incident details submitted successfully!
+        </div>
+    {% endif %}
+
+    <form method="POST" class="d-flex flex-column align-items-center">
+        {% csrf_token %}
+
+        <!-- Company Name -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Company Name</label>
+            <input type="text" name="company_name" class="form-control form-control-sm" required>
+        </div>
+
+        <!-- Company Email -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Company Email ID</label>
+            <input type="email" name="company_email" class="form-control form-control-sm" required>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phone_number" class="form-control form-control-sm" required>
+        </div>
+
+        <!-- Product Details -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Product Details</label>
+            <input type="text" name="product_details" class="form-control form-control-sm">
+        </div>
+
+        <!-- Model Details -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Model Details</label>
+            <input type="text" name="model_details" class="form-control form-control-sm">
+        </div>
+
+        <!-- Location -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control form-control-sm">
+        </div>
+
+        <!-- Threat Summary -->
+        <div class="mb-2 w-50">
+            <label class="form-label">Threats Summary</label>
+            <textarea name="threats_summary" class="form-control form-control-sm" rows="3"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-sm mt-3">
+            Generate Email
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}CSMS Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="mb-5">
+    <h1 class="fw-bold text-center">CyberSecurity Management System</h1>
+    <p class="text-center text-muted">
+        Centralized dashboard for cryptographic operations and security modules
+    </p>
+</div>
+
+<!-- MODULES GRID -->
+<div class="row g-4 text-center">
+
+    <!-- Debug Lock -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🛠</div>
+                <h5>Debug Lock / Unlock</h5>
+                <p>Control debug access securely</p>
+                <a href="/debug/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Generation -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🔑</div>
+                <h5>Key Generation</h5>
+                <p>Generate AES & RSA keys</p>
+                <a href="/debug-keygen/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hashing -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">#️⃣</div>
+                <h5>Hashing</h5>
+                <p>Verify data integrity</p>
+                <a href="/hashing/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Encryption -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🔐</div>
+                <h5>File Encryption</h5>
+                <p>Encrypt sensitive files</p>
+                <a href="/encrypt/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decrypt File -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🔓</div>
+                <h5>Decrypt File</h5>
+                <p>Decrypt encrypted data</p>
+                <a href="/decrypt/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Signature -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">✍️</div>
+                <h5>Digital Signature</h5>
+                <p>Sign files securely</p>
+                <a href="/digital-signature/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signing the File -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🧾</div>
+                <h5>Signing the File</h5>
+                <p>Append firmware hex and signature hex</p>
+                <a href="/sign-file/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Validate Signature -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">✅</div>
+                <h5>Validate Signature</h5>
+                <p>Verify authenticity</p>
+                <a href="/validate-signature/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hex View -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🧬</div>
+                <h5>Hex View</h5>
+                <p>Inspect raw hex data</p>
+                <a href="/hex-view/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Certification (NEW) -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">📜</div>
+                <h5>Digital Certification</h5>
+                <p>Generate and manage digital certificates</p>
+                <a href="/digital-certificate/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seed & Key Generation (NEW) -->
+    <div class="col-md-3">
+        <div class="card module-card h-100">
+            <div class="card-body">
+                <div class="icon">🌱</div>
+                <h5>Seed & Key Generation</h5>
+                <p>Generate secure seed and key values</p>
+                <a href="/seed-key-generation/" class="btn btn-info w-100">Open</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- CUSTOM CSS -->
+<style>
+.module-card {
+    border: none;
+    border-radius: 16px;
+    background: #0b0b0b;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+}
+
+.module-card .icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.module-card h5 {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.module-card p {
+    font-size: 14px;
+    color: #bdbdbd;
+    margin-bottom: 14px;
+}
+</style>
+
+{% endblock %}

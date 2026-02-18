@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Certificate Module</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f9;
+            padding: 40px;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            width: 750px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #2c5364;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #203a43;
+        }
+
+        .result {
+            margin-top: 20px;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .success {
+            margin-top: 15px;
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            margin-top: 15px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        textarea {
+            height: 120px;
+            font-size: 12px;
+        }
+
+        hr {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .cert-field {
+            margin-top: 10px;
+        }
+
+        .cert-field strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+    <!-- ================= OEM ROOT ================= -->
+    <div class="section-title">OEM Root CA Management</div>
+
+    <!-- Generate OEM Key -->
+    <form method="POST" action="{% url 'generate_oem_key' %}">
+        {% csrf_token %}
+        <button type="submit">Generate OEM Private & Public Key</button>
+    </form>
+
+    <!-- Show OEM Keys -->
+    {% if private_key and public_key %}
+        <div class="result">
+            <h3>OEM Private Key</h3>
+            <textarea readonly>{{ private_key }}</textarea>
+
+            <h3>OEM Public Key</h3>
+            <textarea readonly>{{ public_key }}</textarea>
+        </div>
+    {% endif %}
+
+    <!-- Generate OEM Certificate -->
+    <form method="POST" action="{% url 'generate_oem_certificate' %}">
+        {% csrf_token %}
+        <input type="text" name="common_name" placeholder="Enter Root Common Name">
+        <button type="submit">Generate OEM Root Certificate</button>
+    </form>
+
+    <!-- ✅ Browser-Style Certificate Viewer -->
+    {% if subject %}
+    <div class="result">
+        <h3>OEM Root Certificate Details</h3>
+
+        <div class="cert-field">
+            <strong>Issued To:</strong>
+            {{ subject }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Issued By:</strong>
+            {{ issuer }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Serial Number:</strong>
+            {{ serial }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Valid From:</strong>
+            {{ valid_from }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Valid To:</strong>
+            {{ valid_to }}
+        </div>
+
+        <div class="cert-field">
+            <strong>SHA-256 Fingerprint:</strong>
+            <div style="word-break: break-all;">
+                {{ fingerprint }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <!-- ================= INTERMEDIATE ================= -->
+    <div class="section-title">Intermediate CA Management</div>
+
+    <!-- Generate Intermediate Key -->
+    <form method="POST" action="{% url 'generate_intermediate_key' %}">
+        {% csrf_token %}
+        <button type="submit">Generate Intermediate Private & Public Key</button>
+    </form>
+
+    <!-- Show Intermediate Keys -->
+    {% if private_key and public_key %}
+        <div class="result">
+            <h3>Intermediate Private Key</h3>
+            <textarea readonly>{{ private_key }}</textarea>
+
+            <h3>Intermediate Public Key</h3>
+            <textarea readonly>{{ public_key }}</textarea>
+        </div>
+    {% endif %}
+
+    <!-- Generate Intermediate Certificate -->
+    <form method="POST" action="{% url 'generate_intermediate_certificate' %}">
+        {% csrf_token %}
+        <button type="submit">Generate Intermediate Certificate</button>
+    </form>
+
+    <!-- Intermediate Certificate Viewer -->
+    {% if subject and success_message %}
+    <div class="result">
+        <h3>Intermediate Certificate Details</h3>
+
+        <div class="cert-field">
+            <strong>Issued To:</strong>
+            {{ subject }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Issued By:</strong>
+            {{ issuer }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Serial Number:</strong>
+            {{ serial }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Valid From:</strong>
+            {{ valid_from }}
+        </div>
+
+        <div class="cert-field">
+            <strong>Valid To:</strong>
+            {{ valid_to }}
+        </div>
+
+        <div class="cert-field">
+            <strong>SHA-256 Fingerprint:</strong>
+            <div style="word-break: break-all;">
+                {{ fingerprint }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if success_message %}
+        <div class="success">{{ success_message }}</div>
+    {% endif %}
+
+    {% if error_message %}
+        <div class="error">{{ error_message }}</div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

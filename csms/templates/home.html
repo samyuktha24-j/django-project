@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Home | CSMS{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="row align-items-center mb-5">
+    <div class="col-md-7">
+        <h1 class="fw-bold display-6 mb-3">Welcome to CSMS</h1>
+        <p class="lead text-muted">
+            CyberSecurity Management System is a centralized platform designed to manage
+            security policies and cryptographic operations in a controlled and secure environment.
+        </p>
+        <p class="text-muted">
+            Use the navigation bar above to explore policies, PKI modules, and learning resources.
+        </p>
+    </div>
+
+    <!-- SECURITY PILLARS CARD -->
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0 p-4">
+            <h5 class="fw-bold mb-3">Security Pillars</h5>
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2">🔒 <strong>Confidentiality</strong></li>
+                <li class="mb-2">🛡️ <strong>Integrity</strong></li>
+                <li class="mb-2">👤 <strong>Authentication</strong></li>
+                <li>📜 <strong>Non-repudiation</strong></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<!-- PLATFORM HIGHLIGHTS -->
+<h3 class="fw-bold text-center mb-4">Platform Highlights</h3>
+
+<div class="row g-4 text-center">
+
+    <div class="col-md-4">
+        <div class="card highlight-card h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">Policy Management</h5>
+                <p class="text-muted">
+                    Access and manage cybersecurity policies in PDF and Word formats.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card highlight-card h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">PKI Operations</h5>
+                <p class="text-muted">
+                    Perform encryption, decryption, digital signing, and signature validation securely.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card highlight-card h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">Secure Access</h5>
+                <p class="text-muted">
+                    Role-based access control ensures only authorized users can perform sensitive actions.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ✅ ADMIN BUTTON ADDED (ONLY THIS IS NEW) -->
+<div class="text-center mt-5">
+    <a href="/admin-dashboard/" class="btn btn-danger px-4 py-2 fw-bold">
+        Admin
+    </a>
+</div>
+
+<!-- PAGE-LEVEL STYLES -->
+<style>
+.highlight-card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.highlight-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.15);
+}
+</style>
+
+{% endblock %}

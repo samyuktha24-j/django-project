@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}CyberSecurity Management System{% endblock %}
+
+{% block content %}
+
+<div class="row align-items-center mb-5">
+    <div class="col-md-7">
+        <h1 class="fw-bold mb-3">CyberSecurity Management System (CSMS)</h1>
+        <p class="lead">
+            A centralized platform designed to manage cryptographic operations,
+            enforce security policies, and ensure data confidentiality,
+            integrity, and authenticity using Public Key Infrastructure (PKI).
+        </p>
+    </div>
+</div>
+
+<hr class="mb-5">
+
+<h3 class="fw-bold mb-3">Purpose of CSMS</h3>
+<p>
+    The CyberSecurity Management System is developed to demonstrate
+    the practical implementation of cryptographic mechanisms used
+    in secure software systems.
+</p>
+
+<h3 class="fw-bold mt-5 mb-4">Core Capabilities</h3>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Key Generation</h5>
+                <p>Secure AES and RSA key creation.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Encryption</h5>
+                <p>Confidential file encryption and decryption.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Digital Signature</h5>
+                <p>Authenticity and integrity verification.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Signature Validation</h5>
+                <p>Detection of file tampering.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

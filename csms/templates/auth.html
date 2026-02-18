@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Authentication</title>
+
+<style>
+body {
+    background: #ffffff;
+    color: #000000;
+    font-family: Arial;
+}
+
+.box {
+    width: 380px;
+    margin: 120px auto;
+    padding: 30px;
+    border: 2px solid #00bcd4;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+label {
+    margin-top: 15px;
+    display: block;
+    color: #000000;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    background: #ffffff;
+    border: 1px solid #999;
+    color: #000000;
+    border-radius: 6px;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.login {
+    background: #00bcd4;
+    color: black;
+}
+
+.back {
+    background: #333;
+    color: white;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Authentication</h2>
+    <div class="subtitle">Login required to access the system</div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="login">Login</button>
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <!-- Back disabled to prevent bypassing login -->
+    <button class="back" onclick="window.location.href='/auth/'">Back</button>
+</div>
+
+</body>
+</html>

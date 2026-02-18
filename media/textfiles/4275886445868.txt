@@ -1,0 +1,4 @@
+ECU ID: 4275886445868
+Password: LkfLfx4H8VdkU8m/71t5o6hyC1BiTTDyFyY2kDL2ZD0=
+AES Mode: GCM
+Key Size: 192

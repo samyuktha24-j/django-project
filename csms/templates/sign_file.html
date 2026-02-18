@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Signing the File{% endblock %}
+
+{% block content %}
+
+<h3 class="fw-bold text-center mb-4">Signing the File</h3>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Firmware HEX -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Firmware HEX</label>
+        <textarea name="firmware_hex" class="form-control" rows="6" required></textarea>
+    </div>
+
+    <!-- Digital Signature HEX -->
+    <div class="mb-3">
+        <label class="form-label fw-bold">Digital Signature HEX</label>
+        <textarea name="signature_hex" class="form-control" rows="4" required></textarea>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-info">
+        Sign Firmware
+    </button>
+</form>
+
+{% if signed_firmware_hex %}
+<hr class="my-4">
+
+<h5 class="fw-bold">Signed Firmware HEX</h5>
+<textarea class="form-control" rows="8" readonly>{{ signed_firmware_hex }}</textarea>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hashing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .compact {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .compact-sm {
+            max-width: 450px;
+            margin: auto;
+        }
+
+        .back-compact {
+            max-width: 260px;
+            margin: auto;
+        }
+
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">Hashing</h2>
+
+    <!-- Main Card -->
+    <div class="card shadow p-4 compact">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Upload File</label>
+                <input type="file" name="file" class="form-control form-control-sm" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Algorithm</label>
+                <select name="algorithm" class="form-select form-select-sm" required>
+                    <option value="">-- Select --</option>
+                    <option value="sha256">SHA-256</option>
+                    <option value="sha512">SHA-512</option>
+                </select>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-sm">
+                    Generate Hash
+                </button>
+            </div>
+        </form>
+
+        {% if error %}
+        <div class="alert alert-danger mt-3 compact-sm text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if hash %}
+        <div class="alert alert-success mt-4 compact-sm text-center">
+            Hash generated successfully
+        </div>
+
+        <textarea class="form-control form-control-sm mt-3 compact-sm"
+                  rows="3" readonly>{{ hash }}</textarea>
+
+        <div class="text-center">
+            <a class="btn btn-primary btn-sm mt-3"
+               href="data:text/plain;charset=utf-8,{{ hash }}"
+               download="hash.txt">
+                Download Hash
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Back Button -->
+    <div class="card shadow p-2 mt-4 back-compact text-center">
+        <button type="button"
+                class="btn btn-secondary btn-sm px-3 py-1"
+                onclick="window.history.back()">
+            Back
+        </button>
+    </div>
+
+</div>
+
+</body>
+</html>

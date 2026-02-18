@@ -1,0 +1,4 @@
+ECU ID: 3436889186425
+Password: TPPvqRPMAZpDTVlYyPCEuOpredDOoqDcyKkWCumg3sA=
+AES: CBC
+Key: 192

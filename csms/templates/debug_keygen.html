@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Key Generation Module</title>
+
+    <style>
+        body {
+            background: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container { width: 900px; text-align: center; }
+        h1 { margin-bottom: 40px; }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .section {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-break: break-all;
+            border-radius: 6px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .back-box {
+            width: 200px;
+            padding: 12px;
+            background: #6c757d;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 40px auto 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Key Generation Module</h1>
+
+<div class="cards">
+
+<!-- ================= AES ================= -->
+<div class="section">
+    <h2>AES Key Generation (GCM)</h2>
+
+    <select id="aesMode">
+        <option value="128">AES-128-GCM</option>
+        <option value="256">AES-256-GCM</option>
+        <option value="custom">Custom</option>
+    </select>
+
+    <button onclick="generateAES()">Generate AES Key</button>
+    <pre id="aesResult"></pre>
+
+    <button onclick="downloadAES()">Download AES Key</button>
+</div>
+
+<!-- ================= RSA ================= -->
+<div class="section">
+    <h2>RSA Key Generation</h2>
+
+    <select id="rsaSize">
+        <option value="2048">RSA-2048</option>
+        <option value="4096">RSA-4096</option>
+        <option value="custom">Custom</option>
+    </select>
+
+    <button onclick="generateRSA()">Generate RSA Key</button>
+    <pre id="rsaResult"></pre>
+
+    <button onclick="downloadRSA()">Download RSA Key</button>
+</div>
+
+</div>
+
+<div class="back-box" onclick="history.back()">Back</div>
+
+</div>
+
+<script>
+// ===== AES =====
+function generateAES() {
+    const mode = document.getElementById("aesMode").value;
+
+    if (mode === "custom") {
+        document.getElementById("aesResult").innerText =
+            "Custom mode selected.\nFuture extension point.";
+        return;
+    }
+
+    fetch("/keygen/aes/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: mode })
+    })
+    .then(res => res.json())
+    .then(d => {
+        document.getElementById("aesResult").innerText =
+            `AES Mode: ${d.mode}\n\nKey:\n${d.key}\n\nNonce:\n${d.nonce}\n\nTag:\n${d.tag}`;
+    });
+}
+
+function downloadAES() {
+    window.location.href = "/download-aes/";
+}
+
+// ===== RSA (UPDATED: PRIVATE + PUBLIC) =====
+function generateRSA() {
+    const size = document.getElementById("rsaSize").value;
+
+    fetch("/keygen/rsa/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key_size: size })
+    })
+    .then(res => res.json())
+    .then(d => {
+        document.getElementById("rsaResult").innerText =
+            `RSA-${size} PRIVATE KEY:\n\n${d.private_key}\n\n` +
+            `RSA-${size} PUBLIC KEY:\n\n${d.public_key}`;
+    });
+}
+
+function downloadRSA() {
+    window.location.href = "/download-rsa/";
+}
+</script>
+
+</body>
+</html>

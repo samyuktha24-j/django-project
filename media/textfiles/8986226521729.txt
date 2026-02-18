@@ -1,0 +1,4 @@
+ECU ID: 8986226521729
+Password: Gtkutry17D08DwKFKYK7H6pWh8N3snnHagzRwgK4fO0=
+AES Mode: CBC
+Key Size: 256
