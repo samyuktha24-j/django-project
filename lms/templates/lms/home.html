@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSMS LMS</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 flex">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 min-h-screen bg-slate-900 border-r border-cyan-500/20 p-6">
+
+        <h2 class="text-cyan-400 text-xl font-semibold mb-8">
+            🔐 CSMS LMS
+        </h2>
+
+        <!-- ✅ UPDATED SIDEBAR -->
+        <nav class="space-y-4">
+            <a href="/lms/" class="block hover:text-cyan-400">🏠 Dashboard</a>
+
+            <!-- 🎥 VIDEOS -->
+            <a href="/lms/learning/" class="block hover:text-cyan-400">
+                🎥 Learning
+            </a>
+
+            <!-- 📚 COURSES -->
+            <a href="/lms/course/" class="block hover:text-cyan-400">
+                📚 Courses
+            </a>
+
+            <a href="#" class="block hover:text-cyan-400">
+                🧪 Labs
+            </a>
+
+            <a href="#" class="block hover:text-cyan-400">
+                🏆 Certificates
+            </a>
+        </nav>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8">
+
+        <!-- Header -->
+        <h1 class="text-3xl font-semibold mb-6 text-cyan-400">
+            Welcome back, Samyuktha 👋
+        </h1>
+
+        <!-- Stats -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+            <div class="bg-slate-900 p-5 rounded-xl border border-cyan-500/20">
+                <p class="text-slate-400 text-sm">Courses</p>
+                <h3 class="text-2xl font-semibold text-cyan-400">12</h3>
+            </div>
+
+            <div class="bg-slate-900 p-5 rounded-xl border border-cyan-500/20">
+                <p class="text-slate-400 text-sm">Completed</p>
+                <h3 class="text-2xl font-semibold text-green-400">3</h3>
+            </div>
+
+            <div class="bg-slate-900 p-5 rounded-xl border border-cyan-500/20">
+                <p class="text-slate-400 text-sm">Certificates</p>
+                <h3 class="text-2xl font-semibold text-yellow-400">1</h3>
+            </div>
+
+        </div>
+
+        <!-- 🎥 BIG LEARNING CARD -->
+        <div class="bg-slate-900 p-6 rounded-xl border border-cyan-500/20 mb-8">
+            <h3 class="text-cyan-400 text-lg font-semibold mb-2">🎥 Start Learning</h3>
+            <p class="text-slate-400 mb-3">
+                Watch cybersecurity video lessons and improve your knowledge.
+            </p>
+
+            <a href="/lms/learning/" 
+               class="bg-cyan-500 hover:bg-cyan-400 text-black px-4 py-2 rounded">
+                Go to Learning →
+            </a>
+        </div>
+
+        <!-- Course Section -->
+        <h2 class="text-xl font-semibold mb-4">🔥 Popular Courses</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+
+            <!-- Cryptography Course -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-cyan-500/20 hover:border-cyan-400 transition">
+                <h3 class="text-lg font-semibold mb-2">🔐 Cryptography Basics</h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Hands-on cryptography lab with hashing, encryption, and signatures.
+                </p>
+
+                <a href="/lms/course/" class="text-cyan-400 hover:underline">
+                    Open Lab →
+                </a>
+            </div>
+
+            <!-- OWASP -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-cyan-500/20 hover:border-cyan-400 transition">
+                <h3 class="text-lg font-semibold mb-2">🛡 OWASP Top 10</h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Learn real-world web vulnerabilities interactively.
+                </p>
+
+                <a href="/lms/owasp/" class="text-cyan-400 hover:underline">
+                    Explore OWASP →
+                </a>
+            </div>
+
+            <!-- PKI -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-cyan-500/20 hover:border-cyan-400 transition">
+                <h3 class="text-lg font-semibold mb-2">🔑 PKI Mastery</h3>
+                <p class="text-slate-400 text-sm mb-4">
+                    Master certificates and public key infrastructure.
+                </p>
+                <span class="text-slate-500 text-sm">Coming soon</span>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -2,231 +2,106 @@
 <html>
 <head>
     <title>Digital Certificate Module</title>
+
     <style>
-        body {
-            font-family: Arial;
-            background-color: #f4f6f9;
-            padding: 40px;
-        }
+        body { font-family: Arial; background: #f4f6f9; padding: 40px; }
+        .box { background: white; padding: 30px; width: 750px; margin: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, button, textarea { width: 100%; padding: 10px; margin-top: 15px; }
+        button { background: #2c5364; color: white; border: none; cursor: pointer; }
+        textarea { height: 120px; font-size: 12px; }
+        .result { margin-top: 20px; background: #f0f0f0; padding: 15px; border-radius: 6px; }
 
-        .box {
-            background: white;
-            padding: 30px;
-            width: 750px;
-            margin: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        input, button, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-        }
-
-        button {
-            background-color: #2c5364;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #203a43;
-        }
-
-        .result {
-            margin-top: 20px;
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 6px;
-        }
-
-        .success {
-            margin-top: 15px;
-            color: green;
-            font-weight: bold;
-        }
-
-        .error {
-            margin-top: 15px;
-            color: red;
-            font-weight: bold;
-        }
-
-        .section-title {
-            margin-top: 30px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        textarea {
-            height: 120px;
-            font-size: 12px;
-        }
-
-        hr {
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-
-        .cert-field {
-            margin-top: 10px;
-        }
-
-        .cert-field strong {
-            display: block;
-            margin-bottom: 3px;
-        }
-
+        .cert-window { background: #fff; border: 1px solid #ccc; margin-top: 20px; }
+        .cert-title { background: #202124; color: white; padding: 10px; font-weight: bold; }
+        .cert-tabs { display: flex; border-bottom: 1px solid #ddd; }
+        .cert-tab { padding: 8px 14px; cursor: pointer; font-weight: bold; }
+        .cert-tab.active { background: #e8f0fe; border-bottom: 2px solid #1a73e8; }
+        .cert-body { padding: 15px; }
+        .cert-row { display: flex; margin-bottom: 6px; }
+        .cert-label { width: 200px; color: #555; }
+        .cert-value { flex: 1; word-break: break-all; }
+        .cert-tree details { margin-bottom: 6px; }
+        .tree-child { margin-left: 15px; }
+        .cert-btn { background: #1a73e8; color: white; border: none; padding: 6px 10px; margin-top: 10px; }
     </style>
 </head>
+
 <body>
 
 <div class="box">
 
-    <!-- ================= OEM ROOT ================= -->
-    <div class="section-title">OEM Root CA Management</div>
+    <!-- OEM ROOT -->
+    <h2>OEM Root CA</h2>
 
-    <!-- Generate OEM Key -->
+    <!-- Generate Keys -->
     <form method="POST" action="{% url 'generate_oem_key' %}">
         {% csrf_token %}
-        <button type="submit">Generate OEM Private & Public Key</button>
+        <button type="submit">Generate OEM Keys</button>
     </form>
 
-    <!-- Show OEM Keys -->
     {% if private_key and public_key %}
-        <div class="result">
-            <h3>OEM Private Key</h3>
-            <textarea readonly>{{ private_key }}</textarea>
+    <div class="result">
+        <textarea readonly>{{ private_key }}</textarea>
+        <textarea readonly>{{ public_key }}</textarea>
 
-            <h3>OEM Public Key</h3>
-            <textarea readonly>{{ public_key }}</textarea>
-        </div>
+        <!-- ✅ DOWNLOAD BUTTON ADDED -->
+        <a href="{% url 'download_certificate' %}">
+            <button type="button">Download Certificate</button>
+        </a>
+    </div>
     {% endif %}
 
-    <!-- Generate OEM Certificate -->
-    <form method="POST" action="{% url 'generate_oem_certificate' %}">
-        {% csrf_token %}
-        <input type="text" name="common_name" placeholder="Enter Root Common Name">
-        <button type="submit">Generate OEM Root Certificate</button>
-    </form>
-
-    <!-- ✅ Browser-Style Certificate Viewer -->
+    <!-- ===== CERT VIEWER (SAFE DISPLAY ONLY) ===== -->
     {% if subject %}
-    <div class="result">
-        <h3>OEM Root Certificate Details</h3>
+    <div class="cert-window">
 
-        <div class="cert-field">
-            <strong>Issued To:</strong>
-            {{ subject }}
+        <div class="cert-title">
+            Certificate Viewer: {{ subject }}
         </div>
 
-        <div class="cert-field">
-            <strong>Issued By:</strong>
-            {{ issuer }}
+        <div class="cert-tabs">
+            <div class="cert-tab active" onclick="showCertTab('general')">General</div>
+            <div class="cert-tab" onclick="showCertTab('details')">Details</div>
         </div>
 
-        <div class="cert-field">
-            <strong>Serial Number:</strong>
-            {{ serial }}
-        </div>
+        <div class="cert-body">
 
-        <div class="cert-field">
-            <strong>Valid From:</strong>
-            {{ valid_from }}
-        </div>
-
-        <div class="cert-field">
-            <strong>Valid To:</strong>
-            {{ valid_to }}
-        </div>
-
-        <div class="cert-field">
-            <strong>SHA-256 Fingerprint:</strong>
-            <div style="word-break: break-all;">
-                {{ fingerprint }}
+            <div id="general">
+                <div class="cert-row"><div class="cert-label">Common Name</div><div class="cert-value">{{ subject }}</div></div>
+                <div class="cert-row"><div class="cert-label">Issued By</div><div class="cert-value">{{ issuer }}</div></div>
+                <div class="cert-row"><div class="cert-label">Issued On</div><div class="cert-value">{{ valid_from }}</div></div>
+                <div class="cert-row"><div class="cert-label">Expires On</div><div class="cert-value">{{ valid_to }}</div></div>
+                <div class="cert-row"><div class="cert-label">Serial</div><div class="cert-value">{{ serial }}</div></div>
+                <div class="cert-row"><div class="cert-label">Fingerprint</div><div class="cert-value">{{ fingerprint }}</div></div>
             </div>
+
+            <div id="details" style="display:none">
+                <div class="cert-tree">
+                    <details open>
+                        <summary>Certificate Hierarchy</summary>
+                        <div class="tree-child">
+                            {{ issuer }}
+                            <div class="tree-child">{{ subject }}</div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
         </div>
     </div>
-    {% endif %}
-
-    <hr>
-
-    <!-- ================= INTERMEDIATE ================= -->
-    <div class="section-title">Intermediate CA Management</div>
-
-    <!-- Generate Intermediate Key -->
-    <form method="POST" action="{% url 'generate_intermediate_key' %}">
-        {% csrf_token %}
-        <button type="submit">Generate Intermediate Private & Public Key</button>
-    </form>
-
-    <!-- Show Intermediate Keys -->
-    {% if private_key and public_key %}
-        <div class="result">
-            <h3>Intermediate Private Key</h3>
-            <textarea readonly>{{ private_key }}</textarea>
-
-            <h3>Intermediate Public Key</h3>
-            <textarea readonly>{{ public_key }}</textarea>
-        </div>
-    {% endif %}
-
-    <!-- Generate Intermediate Certificate -->
-    <form method="POST" action="{% url 'generate_intermediate_certificate' %}">
-        {% csrf_token %}
-        <button type="submit">Generate Intermediate Certificate</button>
-    </form>
-
-    <!-- Intermediate Certificate Viewer -->
-    {% if subject and success_message %}
-    <div class="result">
-        <h3>Intermediate Certificate Details</h3>
-
-        <div class="cert-field">
-            <strong>Issued To:</strong>
-            {{ subject }}
-        </div>
-
-        <div class="cert-field">
-            <strong>Issued By:</strong>
-            {{ issuer }}
-        </div>
-
-        <div class="cert-field">
-            <strong>Serial Number:</strong>
-            {{ serial }}
-        </div>
-
-        <div class="cert-field">
-            <strong>Valid From:</strong>
-            {{ valid_from }}
-        </div>
-
-        <div class="cert-field">
-            <strong>Valid To:</strong>
-            {{ valid_to }}
-        </div>
-
-        <div class="cert-field">
-            <strong>SHA-256 Fingerprint:</strong>
-            <div style="word-break: break-all;">
-                {{ fingerprint }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if success_message %}
-        <div class="success">{{ success_message }}</div>
-    {% endif %}
-
-    {% if error_message %}
-        <div class="error">{{ error_message }}</div>
     {% endif %}
 
 </div>
+
+<script>
+function showCertTab(tab) {
+    document.getElementById("general").style.display = "none";
+    document.getElementById("details").style.display = "none";
+    document.querySelectorAll(".cert-tab").forEach(t => t.classList.remove("active"));
+    document.getElementById(tab).style.display = "block";
+    event.target.classList.add("active");
+}
+</script>
 
 </body>
 </html>

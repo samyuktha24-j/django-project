@@ -9,7 +9,6 @@
             max-width: 500px;
             margin: auto;
         }
-
         .back-compact {
             max-width: 260px;
             margin: auto;
@@ -27,13 +26,11 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <!-- File -->
             <div class="mb-3">
                 <label class="form-label">Upload File</label>
                 <input type="file" name="file" class="form-control form-control-sm" required>
             </div>
 
-            <!-- AES Mode -->
             <div class="mb-3">
                 <label class="form-label">AES Mode</label>
                 <select name="mode" class="form-select form-select-sm" required>
@@ -41,7 +38,6 @@
                 </select>
             </div>
 
-            <!-- Key Size -->
             <div class="mb-3">
                 <label class="form-label">Key Size</label>
                 <select name="bits" class="form-select form-select-sm" required>
@@ -50,21 +46,13 @@
                 </select>
             </div>
 
-            <!-- 🔐 Paste AES Key (ONLY ADDITION) -->
             <div class="mb-3">
                 <label class="form-label">Paste Key</label>
-                <textarea name="aes_key"
-                          class="form-control form-control-sm"
-                          rows="2"
-                          required></textarea>
+                <textarea name="aes_key" class="form-control form-control-sm" rows="2" required></textarea>
             </div>
 
-            <!-- Encrypt Button ONLY -->
             <div class="text-center">
-                <button type="submit"
-                        name="action"
-                        value="encrypt"
-                        class="btn btn-warning btn-sm w-100">
+                <button type="submit" class="btn btn-warning btn-sm w-100">
                     Encrypt File
                 </button>
             </div>
@@ -72,7 +60,14 @@
 
         {% if result %}
         <div class="alert alert-success mt-3 text-center">
-            {{ result }}
+            Encryption successful
+        </div>
+
+        <!-- 🔽 DOWNLOAD BUTTON -->
+        <div class="text-center mt-2">
+            <a href="/download-encrypted/" class="btn btn-success btn-sm w-100">
+                Download Encrypted File
+            </a>
         </div>
         {% endif %}
     </div>

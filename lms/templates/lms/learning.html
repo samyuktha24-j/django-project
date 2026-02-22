@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white p-8">
+
+    <!-- BACK BUTTON -->
+    <a href="/lms/" class="text-cyan-400">← Back to LMS</a>
+
+    <h1 class="text-3xl text-cyan-400 font-bold mt-4">
+        🎥 Video Learning
+    </h1>
+
+    <p class="text-slate-400 mt-2">
+        Watch cybersecurity lessons and improve your knowledge.
+    </p>
+
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+
+        <!-- VIDEO PLAYER -->
+        <div class="md:col-span-2">
+            <div class="bg-slate-900 p-4 rounded-xl shadow-lg">
+                <iframe id="videoPlayer"
+                    class="w-full h-[400px] rounded-lg"
+                    src="https://www.youtube.com/embed/6r8z4jZ8aSY"
+                    frameborder="0"
+                    allowfullscreen>
+                </iframe>
+
+                <h3 id="videoTitle" class="text-cyan-400 mt-3 font-semibold">
+                    Introduction to Cybersecurity
+                </h3>
+            </div>
+        </div>
+
+        <!-- LESSON LIST -->
+        <div class="bg-slate-900 p-4 rounded-xl shadow-lg">
+            <h4 class="text-cyan-400 font-semibold mb-3">📚 Lessons</h4>
+
+            <ul class="space-y-3 text-sm">
+
+                <li>
+                    <button onclick="playVideo('6r8z4jZ8aSY','Intro to Cybersecurity')"
+                        class="hover:text-cyan-400">
+                        ▶ Lesson 1 — Introduction
+                    </button>
+                </li>
+
+                <li>
+                    <button onclick="playVideo('GSIDS_lvRv4','Encryption Basics')"
+                        class="hover:text-cyan-400">
+                        ▶ Lesson 2 — Encryption Basics
+                    </button>
+                </li>
+
+                <li>
+                    <button onclick="playVideo('bBC-nXj3Ng4','Hashing Explained')"
+                        class="hover:text-cyan-400">
+                        ▶ Lesson 3 — Hashing
+                    </button>
+                </li>
+
+                <li>
+                    <button onclick="playVideo('inWWhr5tnEA','Digital Signatures')"
+                        class="hover:text-cyan-400">
+                        ▶ Lesson 4 — Digital Signatures
+                    </button>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+<script>
+function playVideo(videoId, title) {
+    document.getElementById("videoPlayer").src =
+        "https://www.youtube.com/embed/" + videoId;
+
+    document.getElementById("videoTitle").innerText = title;
+}
+</script>
+
+</body>
+</html>

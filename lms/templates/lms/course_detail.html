@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cryptography Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white p-8">
+
+    <a href="/lms/" class="text-cyan-400">← Back</a>
+
+    <h1 class="text-3xl text-cyan-400 font-bold mt-4">
+        🔐 Cryptography Basics
+    </h1>
+
+    <p class="text-slate-400 mt-2">
+        Practice hashing, encryption, and digital signatures.
+    </p>
+
+    <!-- ✅ PROGRESS BUTTON -->
+    <button onclick="markComplete()"
+        class="bg-green-500 hover:bg-green-400 text-black px-4 py-2 rounded mt-4">
+        ✅ Mark Course Complete
+    </button>
+
+    <p id="completeMsg" class="text-green-400 mt-2"></p>
+
+    <!-- ================= CRYPTO LAB ONLY ================= -->
+    <div class="mt-8 bg-slate-900 p-6 rounded-xl">
+        <h3 class="text-cyan-400 font-semibold mb-3">🧪 Crypto Lab</h3>
+
+        <input id="cryptoInput"
+               class="w-full p-3 rounded bg-slate-800 mb-4"
+               placeholder="Enter text">
+
+        <div class="flex flex-wrap gap-2">
+            <button onclick="generateHash()" class="bg-blue-500 px-4 py-2 rounded">Hash</button>
+            <button onclick="encryptText()" class="bg-blue-500 px-4 py-2 rounded">Encrypt</button>
+            <button onclick="signText()" class="bg-blue-500 px-4 py-2 rounded">Sign</button>
+            <button onclick="verifySignature()" class="bg-blue-500 px-4 py-2 rounded">Verify</button>
+        </div>
+
+        <div class="mt-4 space-y-2 text-sm">
+            <p id="hashResult"></p>
+            <p id="encryptResult"></p>
+            <p id="signatureResult"></p>
+            <p id="verifyResult"></p>
+        </div>
+    </div>
+
+<script>
+let lastSignature = "";
+
+function generateHash() {
+    fetch("/lms/generate-hash/", {
+        method: "POST",
+        body: new URLSearchParams({text: cryptoInput.value})
+    }).then(r=>r.json()).then(d=>hashResult.innerText="Hash: "+d.hash);
+}
+
+function encryptText() {
+    fetch("/lms/encrypt/", {
+        method: "POST",
+        body: new URLSearchParams({text: cryptoInput.value})
+    }).then(r=>r.json()).then(d=>encryptResult.innerText="Encrypted: "+d.encrypted);
+}
+
+function signText() {
+    fetch("/lms/sign/", {
+        method: "POST",
+        body: new URLSearchParams({text: cryptoInput.value})
+    }).then(r=>r.json()).then(d=>{
+        lastSignature=d.signature;
+        signatureResult.innerText="Signature: "+d.signature;
+    });
+}
+
+function verifySignature() {
+    fetch("/lms/verify/", {
+        method: "POST",
+        body: new URLSearchParams({text: cryptoInput.value, signature:lastSignature})
+    }).then(r=>r.json()).then(d=>verifyResult.innerText=d.valid?"✅ Valid":"❌ Invalid");
+}
+
+function markComplete() {
+    fetch("/lms/complete/")
+        .then(()=>completeMsg.innerText="🎉 Course Completed!");
+}
+</script>
+
+</body>
+</html>

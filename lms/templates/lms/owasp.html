@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OWASP Top 10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-white p-8">
+
+<a href="/lms/" class="text-cyan-400">← Back to LMS</a>
+
+<h1 class="text-3xl text-cyan-400 font-bold mt-4">
+    🛡️ OWASP Top 10 (Interactive)
+</h1>
+
+<p class="text-slate-400 mb-6">
+    Click a vulnerability to learn more.
+</p>
+
+<!-- OWASP LIST -->
+<div class="grid md:grid-cols-2 gap-4">
+
+    <button onclick="show('a01')" class="card">A01 Broken Access Control</button>
+    <button onclick="show('a02')" class="card">A02 Cryptographic Failures</button>
+    <button onclick="show('a03')" class="card">A03 Injection</button>
+    <button onclick="show('a04')" class="card">A04 Insecure Design</button>
+    <button onclick="show('a05')" class="card">A05 Security Misconfiguration</button>
+    <button onclick="show('a06')" class="card">A06 Vulnerable Components</button>
+
+</div>
+
+<!-- CONTENT BOX -->
+<div id="content" class="mt-8 bg-slate-900 p-6 rounded-xl hidden"></div>
+
+<style>
+.card{
+    background:#0f172a;
+    padding:16px;
+    border-radius:10px;
+    border:1px solid #334155;
+    text-align:left;
+}
+.card:hover{
+    border-color:#22d3ee;
+}
+</style>
+
+<script>
+function show(type){
+    const content = document.getElementById("content");
+    content.classList.remove("hidden");
+
+    const data = {
+        a01: `
+            <h2 class="text-xl text-cyan-400 font-bold">A01 Broken Access Control</h2>
+            <p class="mt-2 text-slate-300">
+            Users can access data they shouldn’t (e.g., changing URL IDs).
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Role-based access checks</p>
+        `,
+        a02: `
+            <h2 class="text-xl text-cyan-400 font-bold">A02 Cryptographic Failures</h2>
+            <p class="mt-2 text-slate-300">
+            Weak encryption exposes sensitive data.
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Use HTTPS, strong hashing</p>
+        `,
+        a03: `
+            <h2 class="text-xl text-cyan-400 font-bold">A03 Injection</h2>
+            <p class="mt-2 text-slate-300">
+            SQL Injection allows attackers to run database queries.
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Parameterized queries</p>
+        `,
+        a04: `
+            <h2 class="text-xl text-cyan-400 font-bold">A04 Insecure Design</h2>
+            <p class="mt-2 text-slate-300">
+            Flawed system architecture creates security gaps.
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Threat modeling</p>
+        `,
+        a05: `
+            <h2 class="text-xl text-cyan-400 font-bold">A05 Security Misconfiguration</h2>
+            <p class="mt-2 text-slate-300">
+            Default settings expose systems.
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Harden configurations</p>
+        `,
+        a06: `
+            <h2 class="text-xl text-cyan-400 font-bold">A06 Vulnerable Components</h2>
+            <p class="mt-2 text-slate-300">
+            Using outdated libraries with known CVEs.
+            </p>
+            <p class="mt-2 text-green-400">✔ Fix: Keep dependencies updated</p>
+        `
+    };
+
+    content.innerHTML = data[type];
+}
+</script>
+
+</body>
+</html>

@@ -12,26 +12,55 @@
     <!-- Firmware HEX -->
     <div class="mb-3">
         <label class="form-label fw-bold">Firmware HEX</label>
-        <textarea name="firmware_hex" class="form-control" rows="6" required></textarea>
+        <textarea name="firmware_hex"
+                  class="form-control"
+                  rows="6"
+                  placeholder="Paste firmware hex here..."
+                  required></textarea>
     </div>
 
-    <!-- Digital Signature HEX -->
+    <!-- Signature HEX -->
     <div class="mb-3">
         <label class="form-label fw-bold">Digital Signature HEX</label>
-        <textarea name="signature_hex" class="form-control" rows="4" required></textarea>
+        <textarea name="signature_hex"
+                  class="form-control"
+                  rows="4"
+                  placeholder="Paste signature hex here..."
+                  required></textarea>
     </div>
 
     <!-- Submit -->
-    <button type="submit" class="btn btn-info">
-        Sign Firmware
-    </button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-info px-4">
+            Sign Firmware
+        </button>
+    </div>
 </form>
 
+<!-- ERROR MESSAGE -->
+{% if error %}
+<div class="alert alert-danger mt-4 text-center">
+    {{ error }}
+</div>
+{% endif %}
+
+<!-- OUTPUT -->
 {% if signed_firmware_hex %}
 <hr class="my-4">
 
 <h5 class="fw-bold">Signed Firmware HEX</h5>
-<textarea class="form-control" rows="8" readonly>{{ signed_firmware_hex }}</textarea>
+
+<textarea class="form-control"
+          rows="8"
+          readonly>{{ signed_firmware_hex }}</textarea>
+
+<!-- OPTIONAL DOWNLOAD BUTTON -->
+<div class="text-center mt-3">
+    <a href="{% url 'download_signed' %}" class="btn btn-success">
+        Download Signed Firmware
+    </a>
+</div>
+
 {% endif %}
 
 {% endblock %}
